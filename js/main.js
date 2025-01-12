@@ -68,31 +68,6 @@ if (parallaxXs) {
     });
 }
 
-// const slickScrollers = document.querySelectorAll('.slick-scroller')
-
-// if( slickScrollers ){
-//     slickScrollers.forEach( scroller => {
-        
-//         $(document).ready(function() {
-//             // Initialize all slick-scrollers
-//             $('.slick-scroller').each(function() {
-//                 const scroller = $(this);
-                
-//                 // Initialize the main slider for each scroller
-//                 scroller.slick({
-//                     slidesToShow: 1,
-//                     slidesToScroll: 1,
-//                     arrows: false, // Disable default navigation arrows
-//                 });
-        
-//             });
-//         });
-        
-        
-
-//     })
-// }
-
 const slickSliders = document.querySelectorAll('.s-slider')
 
 if( slickSliders ){
@@ -116,3 +91,151 @@ if( slickSliders ){
     })
 
 }
+
+const header = document.querySelector('.hdr')
+
+if( header ){
+
+    // Open Menu 
+    header.querySelector('.mnu-btn').addEventListener('click', ()=>{
+        if( header.classList.contains('mnu-opn') ){
+            header.classList.remove('mnu-opn')
+        }else{
+            header.classList.add('mnu-opn')
+        }
+    })  
+    
+    // Close Menu  
+    header.querySelector('.blk[data-role="btn"]').addEventListener( 'click', ()=>{
+        console.log("Blk clicked")
+        if(header.classList.contains('mnu-opn')){
+            header.classList.remove('mnu-opn') 
+        }
+    })
+
+}
+
+const hdr = document.querySelector('.hdr')
+const tbArws = hdr.querySelectorAll('.tb-arw')
+
+if( tbArws ){
+    tbArws.forEach( tbArw => {
+        tbArw.addEventListener('click', ()=>{
+            if(tbArw.classList.contains('active')){
+                tbArw.classList.remove('active')
+            }else{
+                tbArw.classList.add('active')
+            }
+
+            const parent = tbArw.parentElement
+
+            if( parent ){
+                const menu = parent.querySelector( ' ul[role="menu"]')
+                if( menu ){
+
+                    if( menu.classList.contains('active') ){
+                        menu.classList.remove('active')
+                    }else{
+                        menu.classList.add('active')
+                    }
+                }
+            }
+        })
+    })
+}
+
+const elTabs = hdr.querySelectorAll('.el-tab')
+
+if( elTabs ){
+    elTabs.forEach( elTab => {
+        const parent = elTab.parentElement
+        const lvl2 = parent.querySelector('.lvl-2')
+        let back;
+        if( lvl2 ){
+            back = lvl2.querySelector('.el-sec-tab')
+        }
+
+        elTab.addEventListener('click', ()=> {
+
+            elTab.classList.add('active')
+            
+            if( lvl2 ){
+                lvl2.classList.add('active')
+            }
+
+        } )
+
+        if( back ){
+            back.addEventListener('click', ()=>{
+                elTab.classList.remove('active')
+
+                if( lvl2 ){
+                    lvl2.classList.remove('active')
+                }
+            })
+        }
+
+
+    })
+}
+
+const blgMnu = document.querySelector('.blg-mnu')
+
+if( blgMnu ){
+    const tbArw = blgMnu.querySelector('.tb-arw')
+    const elTab = blgMnu.querySelector('.el-tab')
+    const elPanel = blgMnu.querySelector('.el-panel')
+
+    const btnClr = blgMnu.querySelector('.btn-clr')
+    const nav = blgMnu.querySelector('nav.pn')
+
+    const menuItems = blgMnu.querySelectorAll('li[role="menuitem"]')
+    console.log(menuItems)
+
+    if( btnClr ){
+        btnClr.addEventListener('click', ()=> {
+            blgMnu.classList.toggle('blg-opn')
+
+            if( nav ){
+
+                const currentValue = nav.getAttribute('aria-hidden')
+                nav.setAttribute('aria-hidden', currentValue === 'false' ? 'false' : 'true')
+            }
+        })
+    }
+
+    if (![tbArw, elTab, elPanel].some(el => el == null)) {
+        tbArw.addEventListener('click', () => {
+            tbArw.classList.toggle('active');
+            elTab.classList.toggle('active');
+            elPanel.classList.toggle('sld-opn');
+            elPanel.classList.toggle('active');
+
+            const currentValue = elPanel.getAttribute('aria-hidden');
+            elPanel.setAttribute('aria-hidden', currentValue === 'false' ? 'true' : 'false');
+
+        });
+    }
+
+    if( menuItems ){
+        menuItems.forEach( item => {
+            const tbArw = item.querySelector('.tb-arw')
+
+            if( tbArw ){
+                tbArw.addEventListener( 'click', ()=> {
+                    const elPanel = item.querySelector('.el-panel')
+
+                    if( elPanel ){
+                        elPanel.classList.toggle('sld-opn')
+                        elPanel.classList.toggle('active')
+                        
+                        const currentValue = elPanel.getAttribute('aria-hidden');
+                        elPanel.setAttribute('aria-hidden', currentValue === 'false' ? 'true' : 'false');
+                    }
+                })
+            }
+        })
+    }
+
+}
+
