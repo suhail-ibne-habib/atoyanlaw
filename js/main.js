@@ -15,7 +15,7 @@ elements.forEach(({ selector, animation }) => {
             gsap.from(item, {
                 scrollTrigger: {
                     trigger: item,
-                    start: 'top 80%',
+                    start: 'top bottom',
                     toggleActions: 'play none none none',
                 },
                 ...animation, // Spread the specific animation properties
@@ -35,13 +35,13 @@ if (parallaxYs) {
 
         gsap.to( parallaxY, {
             ease: "slow",
-            y: 100,
+            y: 10,
             scrollTrigger: {
                 trigger: parallaxY,
-                start: "top center",
+                start: "top end",
                 end: "end top",
                 toggleActions: 'play none none none',
-                scrub: true
+                scrub: 3
             }
         })
     });
@@ -61,7 +61,7 @@ if (parallaxXs) {
                 trigger: parallaxX,
                 start: "top 80%",
                 toggleActions: 'play none none none',
-                scrub: true
+                scrub: 2
             }
         })
 
@@ -92,30 +92,30 @@ if( slickSliders ){
 
 }
 
-const header = document.querySelector('.hdr')
+const hdr = document.querySelector('.hdr')
 
-if( header ){
+if( hdr ){
 
     // Open Menu 
-    header.querySelector('.mnu-btn').addEventListener('click', ()=>{
-        if( header.classList.contains('mnu-opn') ){
-            header.classList.remove('mnu-opn')
+    hdr.querySelector('.mnu-btn').addEventListener('click', ()=>{
+        if( hdr.classList.contains('mnu-opn') ){
+            hdr.classList.remove('mnu-opn')
         }else{
-            header.classList.add('mnu-opn')
+            hdr.classList.add('mnu-opn')
         }
     })  
     
     // Close Menu  
-    header.querySelector('.blk[data-role="btn"]').addEventListener( 'click', ()=>{
+    hdr.querySelector('.blk[data-role="btn"]').addEventListener( 'click', ()=>{
         console.log("Blk clicked")
-        if(header.classList.contains('mnu-opn')){
-            header.classList.remove('mnu-opn') 
+        if(hdr.classList.contains('mnu-opn')){
+            hdr.classList.remove('mnu-opn') 
         }
     })
 
 }
 
-const hdr = document.querySelector('.hdr')
+
 const tbArws = hdr.querySelectorAll('.tb-arw')
 
 if( tbArws ){
@@ -199,7 +199,9 @@ if( blgMnu ){
             if( nav ){
 
                 const currentValue = nav.getAttribute('aria-hidden')
-                nav.setAttribute('aria-hidden', currentValue === 'false' ? 'false' : 'true')
+                nav.setAttribute('aria-hidden', currentValue === 'false' ? 'true' : 'false')
+
+                console.log(nav)
             }
         })
     }
@@ -239,3 +241,57 @@ if( blgMnu ){
 
 }
 
+const header = document.getElementById('HeaderZone');
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > header.offsetHeight) {
+        document.documentElement.classList.add('header-hide');
+    } else {
+        document.documentElement.classList.remove('header-hide');
+    }
+});
+
+const contentToXpandWrapper = document.querySelector('[data-class-name="xpnded"]');
+
+if (contentToXpandWrapper) {
+    const btn = contentToXpandWrapper.querySelector('.btn');
+
+    if (btn) {
+        const contentToXpand = document.getElementById('ContentV4Expanded');
+        const opn = btn.querySelector('.opn');
+        const cls = btn.querySelector('.cls');
+
+        if (opn) {
+            opn.addEventListener('click', () => {
+                console.log("opn");
+                const currentValue = btn.getAttribute('aria-expanded');
+                btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+
+                contentToXpandWrapper.classList.add('xpnded');
+
+                if (contentToXpand) {
+                    contentToXpand.classList.add('sld-opn')
+                    const fullHeight = contentToXpand.scrollHeight + "px"; // Calculate content height
+                    contentToXpand.style.height = fullHeight;
+                    contentToXpand.setAttribute('aria-hidden', 'false');
+                }
+            });
+        }
+
+        if (cls) {
+            cls.addEventListener('click', () => {
+                console.log("cls");
+                const currentValue = btn.getAttribute('aria-expanded');
+                btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+
+                contentToXpandWrapper.classList.remove('xpnded');
+
+                if (contentToXpand) {
+                    contentToXpand.classList.remove('sld-opn')
+                    contentToXpand.style.height = "0"; // Collapse content
+                    contentToXpand.setAttribute('aria-hidden', 'true');
+                }
+            });
+        }
+    }
+}
