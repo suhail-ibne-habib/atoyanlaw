@@ -251,6 +251,8 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Xpand 
+
 const contentToXpandWrapper = document.querySelector('[data-class-name="xpnded"]');
 
 if (contentToXpandWrapper) {
@@ -258,40 +260,46 @@ if (contentToXpandWrapper) {
 
     if (btn) {
         const contentToXpand = document.getElementById('ContentV4Expanded');
-        const opn = btn.querySelector('.opn');
-        const cls = btn.querySelector('.cls');
+        const opns = btn.querySelectorAll('.opn');
+        const clss = btn.querySelectorAll('.cls');
 
-        if (opn) {
-            opn.addEventListener('click', () => {
-                console.log("opn");
-                const currentValue = btn.getAttribute('aria-expanded');
-                btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+        if (opns) {
+            opns.forEach( opn => {
 
-                contentToXpandWrapper.classList.add('xpnded');
-
-                if (contentToXpand) {
-                    contentToXpand.classList.add('sld-opn')
-                    const fullHeight = contentToXpand.scrollHeight + "px"; // Calculate content height
-                    contentToXpand.style.height = fullHeight;
-                    contentToXpand.setAttribute('aria-hidden', 'false');
-                }
-            });
+                opn.addEventListener('click', () => {
+                    console.log("opn");
+                    const currentValue = btn.getAttribute('aria-expanded');
+                    btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+    
+                    contentToXpandWrapper.classList.add('xpnded');
+    
+                    if (contentToXpand) {
+                        contentToXpand.classList.add('sld-opn')
+                        const fullHeight = contentToXpand.scrollHeight + "px"; // Calculate content height
+                        contentToXpand.style.height = fullHeight;
+                        contentToXpand.setAttribute('aria-hidden', 'false');
+                    }
+                });
+            })
         }
 
-        if (cls) {
-            cls.addEventListener('click', () => {
-                console.log("cls");
-                const currentValue = btn.getAttribute('aria-expanded');
-                btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+        if (clss) {
+            clss.forEach( cls => {
 
-                contentToXpandWrapper.classList.remove('xpnded');
-
-                if (contentToXpand) {
-                    contentToXpand.classList.remove('sld-opn')
-                    contentToXpand.style.height = "0"; // Collapse content
-                    contentToXpand.setAttribute('aria-hidden', 'true');
-                }
-            });
+                cls.addEventListener('click', () => {
+                    console.log("cls");
+                    const currentValue = btn.getAttribute('aria-expanded');
+                    btn.setAttribute('aria-expanded', currentValue === 'true' ? 'false' : 'true');
+    
+                    contentToXpandWrapper.classList.remove('xpnded');
+    
+                    if (contentToXpand) {
+                        contentToXpand.classList.remove('sld-opn')
+                        contentToXpand.style.height = "0"; // Collapse content
+                        contentToXpand.setAttribute('aria-hidden', 'true');
+                    }
+                });
+            })
         }
     }
 }
